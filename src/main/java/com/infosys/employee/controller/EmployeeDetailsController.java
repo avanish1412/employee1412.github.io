@@ -57,8 +57,7 @@ public class EmployeeDetailsController {
     // delete an employee by id
     @Transactional
     @PostMapping("/employee/remove")
-    public void removeEmployee(Employee employee, Model model) {
-        model.addAttribute("employee", new Employee());
+    public void removeEmployee(Employee employee) {
         Optional<Employee> existingEmployee = employeeDetailsRepository.findById(employee.getId());
         if (existingEmployee.isPresent()) {
             employeeDetailsRepository.deleteById(employee.getId());
