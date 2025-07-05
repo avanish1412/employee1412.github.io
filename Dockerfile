@@ -9,7 +9,8 @@ VOLUME /tmp
 ENV JAVA_OPTS=""
 
 # Add the application JAR file
-COPY --from=build /target/Employee-0.0.1-SNAPSHOT.jar Employee.jar
-
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} Employee-0.0.1-SNAPSHOT.jar
+COPY --from=build /target/Employee-0.0.1-SNAPSHOT.jar demo.jar
 # Run the JAR file
-ENTRYPOINT ["java" ,"-jar" ,"Employee.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /demo.jar"]
