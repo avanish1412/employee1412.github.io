@@ -1,10 +1,14 @@
 package com.infosys.employee.dao;
 
 import jakarta.persistence.*;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "EMPLOYEE")
-public class Employee {
+@RedisHash("Employee")
+public class Employee implements Serializable {
     @Id
     private String id;
     @Column(name = "EMPLOYEE_NAME")

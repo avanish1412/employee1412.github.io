@@ -6,26 +6,33 @@ import java.util.Random;
 
 import com.infosys.employee.dao.Employee;
 import com.infosys.employee.repository.EmployeeDetailsRepository;
+import com.infosys.employee.service.EmployeeDetailsService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/api/")
 public class EmployeeDetailsController {
 
     @Autowired
+    private EmployeeDetailsService employeeDetailsService;
+
+    @Autowired
     private EmployeeDetailsRepository employeeDetailsRepository;
 
-    // display the html page
+
     @GetMapping("/employee/get")
     public List<Employee> getIndex(Model model) {
         return employeeDetailsRepository.findAll();
+    }
+
+    @GetMapping("/employee/get/{id}")
+    public Employee getIndex(@PathVariable("id") String id) {
+        return employeeDetailsService.getIndex(id);
     }
 
     // Insert employee data
@@ -33,7 +40,7 @@ public class EmployeeDetailsController {
     @PostMapping("/employee/create")
     public void newEmployee(Employee employee) {
         // save the employee
-        employeeDetailsRepository.saveAndFlush(employee);
+        employeeDetailsRepository.save(employee);
 
     }
 
