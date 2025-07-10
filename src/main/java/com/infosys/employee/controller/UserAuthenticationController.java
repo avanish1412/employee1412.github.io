@@ -35,6 +35,7 @@ public class UserAuthenticationController {
                 )
         );
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        System.out.println(userDetails);
         return jwtUtils.generateToken(userDetails.getUsername());
     }
 

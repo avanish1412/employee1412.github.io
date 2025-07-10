@@ -1,27 +1,19 @@
 package com.infosys.employee.dao;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 
-@Entity
-@Table(name = "EMPLOYEE")
-@RedisHash("Employee")
-public class Employee implements Serializable {
-    @Id
+@Document(collection = "employees")
+public class Employee{
     private String id;
-    @Column(name = "EMPLOYEE_NAME")
     private String employeeName;
-    @Column(name = "EMPLOYEE_EMAIL")
     private String employeeEmail;
-    @Column(name = "EMPLOYEE_PHONE")
     private Long employeePhone;
-    @Column(name = "EMPLOYEE_GENDER")
     private String employeeGender;
-    @Column(name = "EMPLOYEE_SALARY")
     private String employeeSalary;
-    @Column(name = "EMPLOYEE_ROLE")
     private String employeeRole;
 
     public String getId() {
