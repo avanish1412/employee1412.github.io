@@ -2,18 +2,19 @@ package com.infosys.employee.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import com.infosys.employee.dao.Employee;
 import com.infosys.employee.repository.EmployeeDetailsRepository;
 import com.infosys.employee.service.EmployeeDetailsService;
+import com.infosys.employee.service.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/api/")
-public class EmployeeDetailsController {
+public class CompanyDetailsController {
 
     @Autowired
     private EmployeeDetailsService employeeDetailsService;
@@ -21,9 +22,14 @@ public class EmployeeDetailsController {
     @Autowired
     private EmployeeDetailsRepository employeeDetailsRepository;
 
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
 
     @GetMapping("/employee/get")
-    public List<Employee> getIndex(Model model) {
+    @Scheduled(fixedRate = 100000)
+    public List<Employee> getIndex() {
+        kafkaProducer.sendMessage(employeeDetailsRepository.findAll().getFirst().getEmployeeName());
         return employeeDetailsRepository.findAll();
     }
 
